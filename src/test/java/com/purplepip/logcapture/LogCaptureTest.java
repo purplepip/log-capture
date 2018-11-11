@@ -1,12 +1,15 @@
 package com.purplepip.logcapture;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Log capture test. */
 class LogCaptureTest {
@@ -90,7 +93,7 @@ class LogCaptureTest {
               })
           .start();
       LOG.info("testCaptureInfo : Main Thread");
-      latch.await(100, TimeUnit.MILLISECONDS);
+      assertTrue(latch.await(100, TimeUnit.MILLISECONDS));
       assertEquals(3, captor.size(), "Log messages not correct " + captor);
       info = captor.toString();
     }
