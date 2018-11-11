@@ -1,7 +1,17 @@
-# log-capture
+# Introduction
 
-What's this?
+Capture log messages, primarily for test assertions
 
-# TL;DR
+# Usage
+
+
+```
+try (LogCaptor captor = new LogCapture().start()) {
+  ... do something that logs
+  assertEquals(1, captor.size());
+}
+```
+
+# Build
 
     mvn clean install
