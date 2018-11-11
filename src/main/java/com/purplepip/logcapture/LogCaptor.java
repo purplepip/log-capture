@@ -21,8 +21,10 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.read.ListAppender;
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
@@ -46,8 +48,12 @@ public class LogCaptor implements AutoCloseable {
        * Remove all appenders.
        */
       for (Logger logger : context.getLoggerList()) {
-        for (Appender<ILoggingEvent> appender :
-            ImmutableList.copyOf(logger.iteratorForAppenders())) {
+        List<Appender<ILoggingEvent>> appenders = new ArrayList<>();
+        Iterator<Appender<ILoggingEvent>> iterator = logger.iteratorForAppenders();
+        while (iterator.hasNext()) {
+          appenders.add(iterator.next());
+        }
+        for (Appender<ILoggingEvent> appender : appenders) {
           logger.detachAppender(appender);
           removedAppenders.put(logger.getName(), appender);
         }

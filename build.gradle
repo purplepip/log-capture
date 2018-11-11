@@ -1,5 +1,11 @@
+plugins {
+  id "com.diffplug.gradle.spotless" version "3.16.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: "jacoco"
+apply plugin: 'com.diffplug.gradle.spotless'
 
 group = 'com.purplepip'
 version = '1.0.1-SNAPSHOT'
@@ -18,10 +24,28 @@ repositories {
   maven { url "https://packagecloud.io/purplepip/releases/maven2" }
   maven { url "http://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
   compile group: 'org.slf4j', name: 'slf4j-api', version:_.'slf4j.version'
-  compileOnly group: 'ch.qos.logback', name: 'logback-classic', version:_.'logback.version'
-  compileOnly group: 'com.google.guava', name: 'guava', version:'26.0-jre'
+  compile group: 'ch.qos.logback', name: 'logback-classic', version:_.'logback.version'
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version:_.'junit.version'
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:_.'junit.version'
+}
+
+jacoco {
+  toolVersion = _.'jacoco.version'
+}
+
+test {
+  useJUnitPlatform()
+  testLogging {
+    showStandardStreams = true
+  }
+  finalizedBy jacocoTestReport
+}
+
+spotless {
+  java {
+    googleJavaFormat()
+  }
 }
