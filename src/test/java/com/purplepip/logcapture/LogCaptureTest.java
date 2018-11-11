@@ -1,19 +1,19 @@
 package com.purplepip.logcapture;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Log capture test. */
-public class LogCaptureTest {
+class LogCaptureTest {
   private static final Logger LOG = LoggerFactory.getLogger(LogCaptureTest.class);
 
   @Test
-  public void testCaptureDefault() {
+  void testCaptureDefault() {
     try (LogCaptor captor = new LogCapture().start()) {
       LOG.info("testCaptureDefault: Test info message");
       assertEquals(1, captor.size());
@@ -23,7 +23,7 @@ public class LogCaptureTest {
   }
 
   @Test
-  public void testCaptureWithPassthrough() {
+  void testCaptureWithPassthrough() {
     try (LogCaptor captor = new LogCapture().withPassThrough().start()) {
       LOG.info("testCaptureDefault: Test info message");
       assertEquals(1, captor.size());
@@ -33,7 +33,7 @@ public class LogCaptureTest {
   }
 
   @Test
-  public void testCapture() {
+  void testCapture() {
     try (LogCaptor captor = new LogCapture().debug().from(LogCaptureTest.class).start()) {
       LOG.info("testCapture : Test info message : {}", "parameter-value");
       assertEquals(1, captor.size());
@@ -53,7 +53,7 @@ public class LogCaptureTest {
   }
 
   @Test
-  public void testCaptureFromStringCategory() {
+  void testCaptureFromStringCategory() {
     try (LogCaptor captor = new LogCapture().debug().from(LogCaptureTest.class.getName()).start()) {
       LOG.info("testCapture : Test info message");
       assertEquals(1, captor.size());
@@ -63,7 +63,7 @@ public class LogCaptureTest {
   }
 
   @Test
-  public void testCaptureInfo() {
+  void testCaptureInfo() {
     try (LogCaptor captor = new LogCapture().from(LogCaptureTest.class).start()) {
       LOG.info("testCaptureInfo : Test info message");
       assertEquals(1, captor.size());
@@ -73,7 +73,7 @@ public class LogCaptureTest {
   }
 
   @Test
-  public void testCaptureAllThreads() throws InterruptedException {
+  void testCaptureAllThreads() throws InterruptedException {
     String info;
     try (LogCaptor captor = new LogCapture().from(LogCaptureTest.class).fromAllThreads().start()) {
       CountDownLatch latch = new CountDownLatch(2);
@@ -91,14 +91,14 @@ public class LogCaptureTest {
           .start();
       LOG.info("testCaptureInfo : Main Thread");
       latch.await(100, TimeUnit.MILLISECONDS);
-      assertEquals("Log messages not correct " + captor, 3, captor.size());
+      assertEquals(3, captor.size(), "Log messages not correct " + captor);
       info = captor.toString();
     }
     LOG.info(info);
   }
 
   @Test
-  public void testCaptureError() {
+  void testCaptureError() {
     try (LogCaptor captor = new LogCapture().from(LogCaptureTest.class).start()) {
       LOG.error("testCaptureError : Test info message");
       assertEquals(1, captor.size());
