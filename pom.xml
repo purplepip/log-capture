@@ -8,7 +8,7 @@
   </parent>
 
   <artifactId>log-capture</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>log-capture</name>
 
   <properties>
@@ -63,4 +63,8 @@
       <url>https://packagecloud.io/purplepip/releases/maven2</url>
     </repository>
   </repositories>
+
+  <scm>
+    <tag>1.0.0</tag>
+  </scm>
 </project>
