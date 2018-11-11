@@ -10,17 +10,44 @@
   <artifactId>log-capture</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>log-capture</name>
-  <packaging>pom</packaging>
 
-  <modules>
-    <module>my-core</module>
-  </modules>
+  <properties>
+    <guava.version>26.0-jre</guava.version>
+    <jacoco.covered.ratio>0.88</jacoco.covered.ratio>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>com.coveo</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
