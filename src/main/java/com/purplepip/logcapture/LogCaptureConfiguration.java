@@ -18,7 +18,7 @@ package com.purplepip.logcapture;
 import ch.qos.logback.classic.Level;
 
 /** Log capture configuration. */
-public class LogCaptureConfiguration {
+class LogCaptureConfiguration {
   private Level level = Level.INFO;
   private String category = "ROOT";
   private boolean passThrough;
@@ -28,7 +28,7 @@ public class LogCaptureConfiguration {
     return level;
   }
 
-  public void setLevel(Level level) {
+  void setLevel(Level level) {
     this.level = level;
   }
 
