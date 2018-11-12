@@ -10,7 +10,6 @@ apply plugin: "jacoco"
 apply plugin: 'com.diffplug.gradle.spotless'
 
 group = 'com.purplepip'
-version = '1.0.1-SNAPSHOT'
 description = "Log capture"
 
 ext {
