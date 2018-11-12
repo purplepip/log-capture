@@ -1,1 +1,3 @@
 rootProject.name = 'log-capture'
+
+enableFeaturePreview('STABLE_PUBLISHING')
