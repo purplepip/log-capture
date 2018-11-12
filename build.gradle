@@ -50,6 +50,10 @@ spotless {
   }
 }
 
+release {
+  useAutomaticVersion = true
+}
+
 repositories {
   jcenter()
 }
