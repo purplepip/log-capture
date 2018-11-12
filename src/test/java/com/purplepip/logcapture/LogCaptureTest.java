@@ -1,6 +1,7 @@
 package com.purplepip.logcapture;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.CountDownLatch;
@@ -15,10 +16,12 @@ class LogCaptureTest {
   @Test
   void testCaptureDefault() {
     try (LogCaptor captor = new LogCapture().start()) {
+      assertFalse(captor.hasMessages());
       LOG.info("testCaptureDefault: Test info message");
       assertEquals(1, captor.size());
       LOG.debug("testCaptureDefault: Test debug message");
       assertEquals(1, captor.size());
+      assertTrue(captor.hasMessages());
     }
   }
 
