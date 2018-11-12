@@ -3,10 +3,8 @@ plugins {
   id 'net.researchgate.release' version '2.6.0'
 }
 
-
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'maven-publish'
 apply plugin: "jacoco"
 apply plugin: 'com.diffplug.gradle.spotless'
 
@@ -27,13 +25,13 @@ tasks.withType(JavaCompile) {
 }
 
 configurations {
-  deployerJars
+  deploy
 }
 
 dependencies {
   compile group: 'org.slf4j', name: 'slf4j-api', version:slf4jVersion
   compile group: 'ch.qos.logback', name: 'logback-classic', version:logbackVersion
-  deployerJars group: 'io.packagecloud.maven.wagon', name: 'maven-packagecloud-wagon', version:"0.0.6"
+  deploy group: 'io.packagecloud.maven.wagon', name: 'maven-packagecloud-wagon', version:"0.0.6"
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version:junitVersion
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version:junitVersion
 }
@@ -58,7 +56,7 @@ repositories {
 
 uploadArchives {
   repositories.mavenDeployer {
-    configuration = configurations.deployerJars
+    configuration = configurations.deploy
     def releasesUrl = 'packagecloud+https://packagecloud.io/purplepip/releases'
     def snapshotUrl = 'packagecloud+https://packagecloud.io/purplepip/snapshots'
     def repositoryUrl = version.endsWith('SNAPSHOT') ? snapshotUrl : releasesUrl
