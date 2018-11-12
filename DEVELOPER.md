@@ -3,4 +3,4 @@
 Build pipeline builds releases and deploys to package repository for tagged 
 releases. This can be triggered with :
 
-    gradle release      
+    gradle release -Prelease.useAutomaticVersion=true     
