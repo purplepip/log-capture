@@ -17,7 +17,7 @@ deploy:
 # Open JDK has limited certificates - see https://www.deps.co/guides/travis-ci-latest-java/
 matrix:
   include:
-  - jdk: openjdk10
+  - jdk: openjdk11
     before_install:
     - rm "${JAVA_HOME}/lib/security/cacerts"
     - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
