@@ -7,11 +7,11 @@ Capture logback log messages for test scripts, including :
 
 # Usage
 
-Swallow log messages
+Swallow expected error messages that are polluting build logs
 
 ```js
 try (LogCaptor captor = new LogCapture().error().start()) {
-  ... do something that generates expected errors that you don't want polluting build logs
+  ... do something that generates expected errors
 }
 ```
 
