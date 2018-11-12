@@ -1,6 +1,6 @@
 # Introduction
 
-Capture log messages, primarily for test assertions
+Capture logback log messages, primarily for test assertions.
 
 # Usage
 
@@ -11,8 +11,12 @@ try (LogCaptor captor = new LogCapture().start()) {
 }
 ```
 
-See LogCaptureTest for more usage examples.
+See LogCaptureTest and other unit tests for more usage examples.
 
 # Build
 
     mvn clean install
+
+# Support
+
+If you want support for other log frameworks, just ask and support will be added.

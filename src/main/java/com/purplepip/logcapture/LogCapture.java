@@ -21,6 +21,11 @@ import ch.qos.logback.classic.Level;
 public class LogCapture {
   private LogCaptureConfiguration configuration = new LogCaptureConfiguration();
 
+  public LogCapture trace() {
+    configuration.setLevel(Level.TRACE);
+    return this;
+  }
+
   public LogCapture debug() {
     configuration.setLevel(Level.DEBUG);
     return this;
