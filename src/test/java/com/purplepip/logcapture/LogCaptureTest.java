@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Log capture test. */
 class LogCaptureTest {
   private static final Logger LOG = LoggerFactory.getLogger(LogCaptureTest.class);
 
@@ -24,7 +23,7 @@ class LogCaptureTest {
   }
 
   @Test
-  void testCaptureWithPassthrough() {
+  void testCaptureWithPassThrough() {
     try (LogCaptor captor = new LogCapture().withPassThrough().start()) {
       LOG.info("testCaptureDefault: Test info message");
       assertEquals(1, captor.size());
