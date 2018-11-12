@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/log-capture.iml" filepath="$PROJECT_DIR$/log-capture.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/log-capture_main.iml" filepath="$PROJECT_DIR$/.idea/modules/log-capture_main.iml" group="log-capture" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/log-capture_test.iml" filepath="$PROJECT_DIR$/.idea/modules/log-capture_test.iml" group="log-capture" />
     </modules>
   </component>
 </project>
