@@ -57,7 +57,7 @@ repositories {
 uploadArchives {
   repositories.mavenDeployer {
     configuration = configurations.deploy
-    def baseUrl = 'packagecloud+https://packagecloud.io/purplepip/'
+    def baseUrl = 'packagecloud+https://packagecloud.io/purplepip'
     def repositoryUrl = version.endsWith('SNAPSHOT') ? "${baseUrl}/snapshots" : "${baseUrl}/releases"
     repository(url: repositoryUrl) {
       authentication(password: System.env.PACKAGECLOUD_TOKEN ?: project.properties.'packagecloud.token')
