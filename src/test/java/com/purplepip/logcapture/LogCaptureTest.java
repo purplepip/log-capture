@@ -77,8 +77,23 @@ class LogCaptureTest {
 
   @Test
   void testCaptureAllThreads() throws InterruptedException {
+    assertThreadBasedCaptor(true, 3);
+  }
+
+  @Test
+  void testCaptureOneThreads() throws InterruptedException {
+    assertThreadBasedCaptor(false, 1);
+  }
+
+  private void assertThreadBasedCaptor(boolean allThreads, int expected)
+      throws InterruptedException {
+    LogCapture capture = new LogCapture().from(LogCaptureTest.class);
+    if (allThreads) {
+      capture.fromAllThreads();
+    }
+
     String info;
-    try (LogCaptor captor = new LogCapture().from(LogCaptureTest.class).fromAllThreads().start()) {
+    try (LogCaptor captor = capture.start()) {
       CountDownLatch latch = new CountDownLatch(2);
       new Thread(
               () -> {
@@ -94,7 +109,7 @@ class LogCaptureTest {
           .start();
       LOG.info("testCaptureInfo : Main Thread");
       assertTrue(latch.await(100, TimeUnit.MILLISECONDS));
-      assertEquals(3, captor.size(), "Log messages not correct " + captor);
+      assertEquals(expected, captor.size(), "Log messages not correct " + captor);
       info = captor.toString();
     }
     LOG.info(info);

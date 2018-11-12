@@ -17,6 +17,16 @@ ext {
   slf4jVersion      = "1.7.25"
 }
 jacoco.toolVersion  = "0.8.2"
+jacocoTestCoverageVerification {
+  violationRules {
+    rule {
+      limit {
+        minimum = 1
+      }
+    }
+  }
+}
+check.dependsOn jacocoTestCoverageVerification
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -49,6 +59,10 @@ spotless {
   java {
     googleJavaFormat()
   }
+}
+
+afterEvaluate {
+  tasks.getByName('spotlessCheck').dependsOn(tasks.getByName('spotlessApply'))
 }
 
 repositories {
