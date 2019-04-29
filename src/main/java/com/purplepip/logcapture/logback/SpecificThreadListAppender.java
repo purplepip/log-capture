@@ -16,10 +16,7 @@
 package com.purplepip.logcapture.logback;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.read.ListAppender;
 import com.purplepip.logcapture.LogCaptorEvent;
-import com.purplepip.logcapture.logback.LogbackListAppender;
-
 import java.util.List;
 
 /**

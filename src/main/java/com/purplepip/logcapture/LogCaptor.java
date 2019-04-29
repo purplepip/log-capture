@@ -35,7 +35,11 @@ public class LogCaptor implements AutoCloseable {
     if (!configuration.getPassThrough()) {
       context.removeAllAppenders();
     }
-    context.capture(events, configuration.getCategory(), configuration.getLevel(), configuration.isAllThreads());
+    context.capture(
+        events,
+        configuration.getCategory(),
+        configuration.getLevel(),
+        configuration.isAllThreads());
   }
 
   @Override
@@ -67,16 +71,8 @@ public class LogCaptor implements AutoCloseable {
   @Override
   public String toString() {
     return events
-            .stream()
-            .map(
-                    e ->
-                            "["
-                                    + e.getLevel()
-                                    + "] "
-                                    + "("
-                                    + e.getThreadName()
-                                    + ") "
-                                    + e.getMessage())
-            .collect(Collectors.joining("; "));
+        .stream()
+        .map(e -> "[" + e.getLevel() + "] " + "(" + e.getThreadName() + ") " + e.getMessage())
+        .collect(Collectors.joining("; "));
   }
 }

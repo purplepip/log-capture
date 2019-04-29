@@ -4,16 +4,13 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import ch.qos.logback.core.read.ListAppender;
 import com.purplepip.logcapture.LogCaptorContext;
 import com.purplepip.logcapture.LogCaptorEvent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
@@ -76,14 +73,15 @@ public class LogbackLogCaptureContext implements LogCaptorContext {
   }
 
   @Override
-  public void capture(List<LogCaptorEvent> events, String category, Level level, boolean allThreads) {
+  public void capture(
+      List<LogCaptorEvent> events, String category, Level level, boolean allThreads) {
     /*
      * Set up the capturing appender.
      */
     capturingAppender =
-            allThreads
-                    ? new LogbackListAppender(events)
-                    : new SpecificThreadListAppender(events, Thread.currentThread().getName());
+        allThreads
+            ? new LogbackListAppender(events)
+            : new SpecificThreadListAppender(events, Thread.currentThread().getName());
     setLevel(category, level);
     capturingAppender.start();
   }
