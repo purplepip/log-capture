@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
-public interface LogContext {
+public interface LogCaptorContext {
   Logger getLogger(String name);
 
   void removeAllAppenders();

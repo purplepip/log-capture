@@ -3,6 +3,8 @@
     <words>
       <w>appenders</w>
       <w>gradlew</w>
+      <w>logcapture</w>
+      <w>purplepip</w>
     </words>
   </dictionary>
 </component>

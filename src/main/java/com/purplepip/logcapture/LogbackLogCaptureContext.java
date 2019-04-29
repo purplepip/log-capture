@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-public class LogbackContext implements LogContext {
+public class LogbackLogCaptureContext implements LogCaptorContext {
   private ch.qos.logback.classic.Level originalLevel;
   private ListAppender<ILoggingEvent> capturingAppender;
 

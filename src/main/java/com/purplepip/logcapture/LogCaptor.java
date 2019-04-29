@@ -18,7 +18,7 @@ package com.purplepip.logcapture;
 /** Log capture tool. */
 public class LogCaptor implements AutoCloseable {
   private LogCaptureConfiguration configuration;
-  private final LogContext context = new LogbackContext();
+  private final LogCaptorContext context = new LogCaptureContextFactory().create();
 
   LogCaptor(LogCaptureConfiguration configuration) {
     this.configuration = configuration;
