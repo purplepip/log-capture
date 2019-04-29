@@ -14,11 +14,5 @@ public interface LogCaptorContext {
 
   void detachCapturingAppender(String name);
 
-  void capture(String category, Level level, boolean allThreads);
-
-  int size();
-
-  String getMessage(int index);
-
-  boolean hasMessages();
+  void capture(List<LogCaptorEvent> events, String category, Level level, boolean allThreads);
 }

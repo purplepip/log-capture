@@ -14,7 +14,7 @@ class LogCaptureContextFactory {
     LOG_CAPTURE_CONTEXT_CLASSES = new HashMap<>();
 
     String loggerFactoryClassName = "ch.qos.logback.classic.LoggerContext";
-    String logCaptureClassName = "com.purplepip.logcapture.LogbackLogCaptureContext";
+    String logCaptureClassName = "com.purplepip.logcapture.logback.LogbackLogCaptureContext";
     try {
       Class<LogCaptorContext> logCaptureClazz = (Class<LogCaptorContext>) Class.forName(logCaptureClassName);
       LOG_CAPTURE_CONTEXT_CLASSES.put(loggerFactoryClassName, logCaptureClazz);

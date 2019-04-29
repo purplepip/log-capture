@@ -15,10 +15,15 @@
 
 package com.purplepip.logcapture;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /** Log capture tool. */
 public class LogCaptor implements AutoCloseable {
   private LogCaptureConfiguration configuration;
   private final LogCaptorContext context = new LogCaptureContextFactory().create();
+  private List<LogCaptorEvent> events;
 
   LogCaptor(LogCaptureConfiguration configuration) {
     this.configuration = configuration;
@@ -26,10 +31,11 @@ public class LogCaptor implements AutoCloseable {
   }
 
   private void start() {
+    events = new ArrayList<>();
     if (!configuration.getPassThrough()) {
       context.removeAllAppenders();
     }
-    context.capture(configuration.getCategory(), configuration.getLevel(), configuration.isAllThreads());
+    context.capture(events, configuration.getCategory(), configuration.getLevel(), configuration.isAllThreads());
   }
 
   @Override
@@ -42,20 +48,35 @@ public class LogCaptor implements AutoCloseable {
   }
 
   public int size() {
-    return context.size();
+    return events.size();
   }
 
   public String getMessage(int index) {
-    return context.getMessage(index);
+    return events.get(index).getMessage();
   }
 
   public boolean hasMessages() {
-    return context.hasMessages();
+    return !events.isEmpty();
   }
 
+  /**
+   * To string.
+   *
+   * @return string
+   */
   @Override
   public String toString() {
-    return context.toString();
+    return events
+            .stream()
+            .map(
+                    e ->
+                            "["
+                                    + e.getLevel()
+                                    + "] "
+                                    + "("
+                                    + e.getThreadName()
+                                    + ") "
+                                    + e.getMessage())
+            .collect(Collectors.joining("; "));
   }
-
 }

@@ -13,19 +13,24 @@
  * limitations under the License.
  */
 
-package com.purplepip.logcapture;
+package com.purplepip.logcapture.logback;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.purplepip.logcapture.LogCaptorEvent;
+import com.purplepip.logcapture.logback.LogbackListAppender;
+
+import java.util.List;
 
 /**
  * List appender that only appends events from a specific thread name. This allows a thread to only
  * capture log events for the current thread.
  */
-public class SpecificThreadListAppender extends ListAppender<ILoggingEvent> {
+public class SpecificThreadListAppender extends LogbackListAppender {
   private final String threadName;
 
-  public SpecificThreadListAppender(String threadName) {
+  SpecificThreadListAppender(List<LogCaptorEvent> events, String threadName) {
+    super(events);
     this.threadName = threadName;
   }
 
