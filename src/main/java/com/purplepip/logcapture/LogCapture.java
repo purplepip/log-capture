@@ -15,8 +15,6 @@
 
 package com.purplepip.logcapture;
 
-import ch.qos.logback.classic.Level;
-
 /** Capture configuration and captor builder. */
 public class LogCapture {
   private LogCaptureConfiguration configuration = new LogCaptureConfiguration();

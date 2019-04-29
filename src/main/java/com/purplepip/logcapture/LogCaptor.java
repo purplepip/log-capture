@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 /** Log capture tool. */
 public class LogCaptor implements AutoCloseable {
   private LogCaptureConfiguration configuration;
-  private final LogCaptorContext context = new LogCaptureContextFactory().create();
+  private final CaptureService context = new CaptureProvider().create();
   private List<LogCaptorEvent> events;
 
   LogCaptor(LogCaptureConfiguration configuration) {

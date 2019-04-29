@@ -4,7 +4,8 @@ import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
-import com.purplepip.logcapture.LogCaptorContext;
+import com.purplepip.logcapture.CaptureService;
+import com.purplepip.logcapture.Level;
 import com.purplepip.logcapture.LogCaptorEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,14 +13,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 
-public class LogbackLogCaptureContext implements LogCaptorContext {
+public class LogbackCaptureService implements CaptureService {
   private ch.qos.logback.classic.Level originalLevel;
   private LogbackListAppender capturingAppender;
 
   private final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
   private final Map<String, Appender<ILoggingEvent>> removedAppenders = new HashMap<>();
+
+  @Override
+  public boolean supports(Class<?> clazz) {
+    return LoggerContext.class.isAssignableFrom(clazz);
+  }
 
   public Logger getLogger(String name) {
     return context.getLogger(name);

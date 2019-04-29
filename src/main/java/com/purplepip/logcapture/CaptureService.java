@@ -2,9 +2,10 @@ package com.purplepip.logcapture;
 
 import java.util.List;
 import org.slf4j.Logger;
-import org.slf4j.event.Level;
 
-public interface LogCaptorContext {
+public interface CaptureService {
+  boolean supports(Class<?> clazz);
+
   Logger getLogger(String name);
 
   void removeAllAppenders();
