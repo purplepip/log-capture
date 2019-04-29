@@ -15,7 +15,7 @@
 
 package com.purplepip.logcapture;
 
-import ch.qos.logback.classic.Level;
+import org.slf4j.event.Level;
 
 /** Log capture configuration. */
 class LogCaptureConfiguration {
@@ -30,6 +30,10 @@ class LogCaptureConfiguration {
 
   void setLevel(Level level) {
     this.level = level;
+  }
+
+  void setLevel(ch.qos.logback.classic.Level level) {
+    this.level = org.slf4j.event.Level.valueOf(level.toString());
   }
 
   String getCategory() {

@@ -1,0 +1,126 @@
+package com.purplepip.logcapture;
+
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.Appender;
+import ch.qos.logback.core.read.ListAppender;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
+
+public class LogbackContext implements LogContext {
+  private ch.qos.logback.classic.Level originalLevel;
+  private ListAppender<ILoggingEvent> capturingAppender;
+
+  private final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+  private final Map<String, Appender<ILoggingEvent>> removedAppenders = new HashMap<>();
+
+  public Logger getLogger(String name) {
+    return context.getLogger(name);
+  }
+
+  public void removeAllAppenders() {
+    /*
+     * Remove all appenders.
+     */
+    for (Logger logger : context.getLoggerList()) {
+      List<Appender<ILoggingEvent>> appenders = new ArrayList<>();
+      Iterator<Appender<ILoggingEvent>> iterator = logger.iteratorForAppenders();
+      while (iterator.hasNext()) {
+        appenders.add(iterator.next());
+      }
+      for (Appender<ILoggingEvent> appender : appenders) {
+        logger.detachAppender(appender);
+        removedAppenders.put(logger.getName(), appender);
+      }
+    }
+  }
+
+  private void setLevel(String name, Level level) {
+    capturingAppender.setContext(context);
+    Logger logger = context.getLogger(name);
+    logger.addAppender(capturingAppender);
+    originalLevel = getLogger(name).getLevel();
+    logger.setLevel(ch.qos.logback.classic.Level.toLevel(level.toString()));
+  }
+
+  /*
+   * Restore previous appenders.
+   */
+  @Override
+  public void restoreAppenders() {
+    for (Map.Entry<String, Appender<ILoggingEvent>> entry : removedAppenders.entrySet()) {
+      Logger logger = context.getLogger(entry.getKey());
+      logger.addAppender(entry.getValue());
+    }
+  }
+
+  /*
+   * Remove capturing appender.
+   */
+  @Override
+  public void detachCapturingAppender(String name) {
+    Logger logger = context.getLogger(name);
+    capturingAppender.stop();
+    logger.detachAppender(capturingAppender);
+    logger.setLevel(originalLevel);
+  }
+
+  @Override
+  public void capture(String category, Level level, boolean allThreads) {
+    /*
+     * Set up the capturing appender.
+     */
+    capturingAppender =
+            allThreads
+                    ? new ListAppender<>()
+                    : new SpecificThreadListAppender(Thread.currentThread().getName());
+    setLevel(category, level);
+    capturingAppender.start();
+  }
+
+  @Override
+  public int size() {
+    return capturingAppender.list.size();
+  }
+
+  @Override
+  public String getMessage(int index) {
+    return capturingAppender.list.get(index).getFormattedMessage();
+  }
+
+  @Override
+  public boolean hasMessages() {
+    return size() > 0;
+  }
+
+  /**
+   * To string.
+   *
+   * @return string
+   */
+  @Override
+  public String toString() {
+    return capturingAppender
+            .list
+            .stream()
+            .map(
+                    e ->
+                            "["
+                                    + e.getLevel()
+                                    + "] "
+                                    + "("
+                                    + e.getThreadName()
+                                    + ") "
+                                    + e.getFormattedMessage())
+            .collect(Collectors.joining("; "));
+  }
+}
