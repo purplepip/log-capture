@@ -30,7 +30,3 @@ See LogCaptureTest and other unit tests for more usage examples.
 # Build
 
     ./gradlew build
-
-# Support
-
-If you want support for other log frameworks, just ask and support will be added.
