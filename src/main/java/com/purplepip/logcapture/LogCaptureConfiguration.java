@@ -21,6 +21,7 @@ class LogCaptureConfiguration {
   private String category = "ROOT";
   private boolean passThrough;
   private boolean allThreads;
+  private CaptureService service = new CaptureProvider().create();
 
   public Level getLevel() {
     return level;
@@ -52,5 +53,13 @@ class LogCaptureConfiguration {
 
   public boolean isAllThreads() {
     return allThreads;
+  }
+
+  public void setService(CaptureService service) {
+    this.service = service;
+  }
+
+  public CaptureService getService() {
+    return service;
   }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import org.slf4j.Logger;
 
 public interface CaptureService {
-  boolean supports(Class<?> clazz);
+  boolean supports(Object logManager);
 
   Logger getLogger(String name);
 

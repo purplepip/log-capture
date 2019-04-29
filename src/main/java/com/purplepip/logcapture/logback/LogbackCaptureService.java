@@ -22,8 +22,8 @@ public class LogbackCaptureService implements CaptureService {
   private final Map<String, Appender<ILoggingEvent>> removedAppenders = new HashMap<>();
 
   @Override
-  public boolean supports(Class<?> clazz) {
-    return LoggerContext.class.isAssignableFrom(clazz);
+  public boolean supports(Object logManager) {
+    return LoggerContext.class.isAssignableFrom(logManager.getClass());
   }
 
   public Logger getLogger(String name) {

@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 /** Log capture tool. */
 public class LogCaptor implements AutoCloseable {
   private LogCaptureConfiguration configuration;
-  private final CaptureService context = new CaptureProvider().create();
   private List<LogCaptorEvent> events;
 
   LogCaptor(LogCaptureConfiguration configuration) {
@@ -33,21 +32,23 @@ public class LogCaptor implements AutoCloseable {
   private void start() {
     events = new ArrayList<>();
     if (!configuration.getPassThrough()) {
-      context.removeAllAppenders();
+      configuration.getService().removeAllAppenders();
     }
-    context.capture(
-        events,
-        configuration.getCategory(),
-        configuration.getLevel(),
-        configuration.isAllThreads());
+    configuration
+        .getService()
+        .capture(
+            events,
+            configuration.getCategory(),
+            configuration.getLevel(),
+            configuration.isAllThreads());
   }
 
   @Override
   public void close() {
-    context.detachCapturingAppender(configuration.getCategory());
+    configuration.getService().detachCapturingAppender(configuration.getCategory());
 
     if (!configuration.getPassThrough()) {
-      context.restoreAppenders();
+      configuration.getService().restoreAppenders();
     }
   }
 

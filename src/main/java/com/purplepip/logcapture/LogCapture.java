@@ -64,6 +64,11 @@ public class LogCapture {
     return this;
   }
 
+  public LogCapture withLogManager(Object logManager) {
+    configuration.setService(new CaptureProvider().create(logManager));
+    return this;
+  }
+
   public LogCaptor start() {
     return new LogCaptor(configuration);
   }
