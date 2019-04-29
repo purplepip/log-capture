@@ -7,6 +7,13 @@ import java.util.List;
 import org.slf4j.Logger;
 
 public class MockLogCaptureService implements CaptureService {
+  private MockLogManager logManager;
+
+  @Override
+  public void setLogManager(Object logManager) {
+    this.logManager = (MockLogManager) logManager;
+  }
+
   @Override
   public boolean supports(Object logManager) {
     return MockLogManager.class.isAssignableFrom(logManager.getClass());

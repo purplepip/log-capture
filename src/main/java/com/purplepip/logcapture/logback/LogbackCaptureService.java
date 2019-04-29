@@ -12,14 +12,18 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.LoggerFactory;
 
 public class LogbackCaptureService implements CaptureService {
   private ch.qos.logback.classic.Level originalLevel;
   private LogbackListAppender capturingAppender;
 
-  private final LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+  private LoggerContext logManager;
   private final Map<String, Appender<ILoggingEvent>> removedAppenders = new HashMap<>();
+
+  @Override
+  public void setLogManager(Object logManager) {
+    this.logManager = (LoggerContext) logManager;
+  }
 
   @Override
   public boolean supports(Object logManager) {
@@ -27,14 +31,14 @@ public class LogbackCaptureService implements CaptureService {
   }
 
   public Logger getLogger(String name) {
-    return context.getLogger(name);
+    return logManager.getLogger(name);
   }
 
   public void removeAllAppenders() {
     /*
      * Remove all appenders.
      */
-    for (Logger logger : context.getLoggerList()) {
+    for (Logger logger : logManager.getLoggerList()) {
       List<Appender<ILoggingEvent>> appenders = new ArrayList<>();
       Iterator<Appender<ILoggingEvent>> iterator = logger.iteratorForAppenders();
       while (iterator.hasNext()) {
@@ -48,8 +52,8 @@ public class LogbackCaptureService implements CaptureService {
   }
 
   private void setLevel(String name, Level level) {
-    capturingAppender.setContext(context);
-    Logger logger = context.getLogger(name);
+    capturingAppender.setContext(logManager);
+    Logger logger = logManager.getLogger(name);
     logger.addAppender(capturingAppender);
     originalLevel = getLogger(name).getLevel();
     logger.setLevel(ch.qos.logback.classic.Level.toLevel(level.toString()));
@@ -61,7 +65,7 @@ public class LogbackCaptureService implements CaptureService {
   @Override
   public void restoreAppenders() {
     for (Map.Entry<String, Appender<ILoggingEvent>> entry : removedAppenders.entrySet()) {
-      Logger logger = context.getLogger(entry.getKey());
+      Logger logger = logManager.getLogger(entry.getKey());
       logger.addAppender(entry.getValue());
     }
   }
@@ -71,7 +75,7 @@ public class LogbackCaptureService implements CaptureService {
    */
   @Override
   public void detachCapturingAppender(String name) {
-    Logger logger = context.getLogger(name);
+    Logger logger = logManager.getLogger(name);
     capturingAppender.stop();
     logger.detachAppender(capturingAppender);
     logger.setLevel(originalLevel);
